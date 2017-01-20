@@ -2,6 +2,7 @@
 <resources>
 
     <string name="hello">Joshua said:</string>
+    <string name="mood">Mood?</string>
     <string name="app_name">LonelyTwitter</string>
     <string name="save">Save</string>
     <string name="clear">Clear</string>

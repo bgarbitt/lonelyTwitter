@@ -16,7 +16,20 @@
         android:layout_height="263dp"
         android:layout_weight="1"
         android:scrollbars="vertical" >
+    </ListView>
 
+    <TextView
+        android:id="@+id/Mood"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="My past moods" />
+
+    <ListView
+        android:id="@+id/Mood_List"
+        android:layout_width="fill_parent"
+        android:layout_height="263dp"
+        android:layout_weight="1"
+        android:scrollbars="vertical" >
     </ListView>
 
     <TextView
@@ -24,7 +37,13 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/hello" />
-    
+
+    <Button
+        android:id="@id/Mood"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="How are you feeling?" />
+
     <EditText
         android:id="@+id/body"
         android:layout_width="fill_parent"
@@ -42,5 +61,6 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/save" />
+
 
 </LinearLayout>
