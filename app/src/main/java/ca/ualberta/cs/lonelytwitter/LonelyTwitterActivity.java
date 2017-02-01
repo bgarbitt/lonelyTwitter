@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2017. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+ * Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+ * Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+ * Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+ * Vestibulum commodo. Ut rhoncus gravida arcu.
+ */
+
 package ca.ualberta.cs.lonelytwitter;
 
 import java.io.BufferedReader;
@@ -24,16 +32,62 @@ import android.widget.ListView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+/**
+ * This class is the main view class of the project. <br> In this class, user interaction
+ * and file manipulation is performed.
+ * All files are in the form of "json" files that are stored in Emulator's accessible from Android Device Monitor
+ * <pre>
+ *     pre-formatted text: <br>
+ *         File Exploerer -> data -> data -> ca.ualberta.cs.lonelytwitter -> files -> file.sav
+ * </pre>
+ * <code> begin <br>
+ * some pseudo code <br>
+ * end.</code>
+ * The file name is indicated in the &nbsp &nbsp &nbsp FILENAME constant.
+ * <ul>
+ * <li>item 1</li>
+ * <li>item 2</li>
+ * <li>item 3</li>
+ * </ul>
+ * <ol>
+ * <li>item 1</li>
+ * <li>item 2</li>
+ * <li>item 3</li>
+ * </ol>
+ *
+ * @author brettgarbitt
+ * @version 1.0
+ * @see Tweet
+ * @since 0.5
+ */
 public class LonelyTwitterActivity extends Activity {
-
+	/**
+	 * The file that all the tweets are saved there. The format of the file is JSON.
+	 * @see #loadFromFile()
+	 * @see #saveInFile()
+	 */
 	private static final String FILENAME = "file.sav";
+	private enum TweetListOrdering {
+		/**
+		 * Date ascending tweet list ordering.
+		 */
+		DATE_ASCENDING, /**
+		 * Date descending tweet list ordering.
+		 */
+		DATE_DESCENDING, /**
+		 * Text ascending tweet list ordering.
+		 */
+		TEXT_ASCENDING, /**
+		 * Text descending tweet list ordering.
+		 */
+		TEXT_DESCENDING};
 	private EditText bodyText;
 	private ListView oldTweetsList;
 
 	private ArrayList<Tweet> tweetList;
 	private ArrayAdapter<Tweet> adapter;
 	/** Called when the activity is first created. */
-	@Override
+	@Override //The override is used to make sure the compiler knows when you made a spelling error (rather than creating a new object)
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
@@ -76,6 +130,7 @@ public class LonelyTwitterActivity extends Activity {
 			public void onClick(View v) {
 				setResult(RESULT_OK);
 				String text = bodyText.getText().toString();
+				text = trimExtraSpaces(text);
 
 				//Tweet tweet = new ImportantTweet("test string");
 				//NormalTweet normalTweet = new NormalTweet("test string");
@@ -95,6 +150,9 @@ public class LonelyTwitterActivity extends Activity {
 		});
 	}
 
+	/**
+	 * Called when activity starts?
+	 */
 	@Override
 	protected void onStart() {
 		// TODO Auto-generated method stub
@@ -106,6 +164,29 @@ public class LonelyTwitterActivity extends Activity {
 		oldTweetsList.setAdapter(adapter);
 	}
 
+	/**
+	 * Trims extra spaces using regular expression.
+	 * @param inputString string that needs to be cleared of extra spaces
+	 * @return resulting string
+     */
+	private String trimExtraSpaces(String inputString) {
+		inputString = inputString.replaceAll("\\s+", " ");
+		return inputString;
+	}
+
+	/**
+	 * This method sorts items in the tweet list and refreshed the adapter
+	 * @param ordering ordering to be used.
+     */
+	private void sortTweetListItems(TweetListOrdering ordering){
+
+	}
+	/**
+	 * Loads tweets from specified file.
+	 *
+	 * @throws TweetTooLongException if the text is too long.
+	 * @exception FileNotFoundException if the file is not created first.
+	 */
 	private void loadFromFile() {
 		//Added this line even though it wasn't in the tutorial
 		ArrayList<String> tweets = new ArrayList<String>();
@@ -128,7 +209,11 @@ public class LonelyTwitterActivity extends Activity {
 			throw new RuntimeException();
 		}
 	}
-	
+
+	/**
+	 * Saves tweets to a specified file in JSON format.
+	 * @throws FileNotFoundException if file folder doesn't exist
+	 */
 	private void saveInFile() {
 		try {
 			FileOutputStream fos = openFileOutput(FILENAME,
