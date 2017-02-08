@@ -2,9 +2,15 @@ package ca.ualberta.cs.lonelytwitter;
 
 import java.util.Date;
 
+import io.searchbox.annotations.JestId;
+
 public abstract class Tweet implements Tweetable {
     private String message;
     private Date date;
+
+    // using this Jestid, we now have a place to store the tweets
+    @JestId
+    private String id;
 
     public Tweet(String message){
         this.message = message;
@@ -42,5 +48,13 @@ public abstract class Tweet implements Tweetable {
 
     public Date getDate() {
         return date;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void getId(String id) {
+        this.id = id;
     }
 }
