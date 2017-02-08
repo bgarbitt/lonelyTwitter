@@ -1,5 +1,6 @@
 package ca.ualberta.cs.lonelytwitter;
 
+<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -98,6 +99,46 @@ public abstract class Tweet implements Tweetable {
      *
      * @param date the date
      */
+=======
+import java.util.Date;
+
+import io.searchbox.annotations.JestId;
+
+public abstract class Tweet implements Tweetable {
+    private String message;
+    private Date date;
+
+    // using this Jestid, we now have a place to store the tweets
+    @JestId
+    private String id;
+
+    public Tweet(String message){
+        this.message = message;
+        this.date = new Date();
+    }
+
+    public Tweet(String message, Date date){
+        this.message = message;
+        this.date = date;
+    }
+
+    @Override
+    public String toString(){
+        return message;
+    }
+
+    public abstract Boolean isImportant();
+
+
+    public void setMessage(String message) throws TweetTooLongException {
+        if (message.length() > 140){
+            //Do Something!
+            throw new TweetTooLongException();
+        }
+        this.message = message;
+    }
+
+>>>>>>> elasticsearch
     public void setDate(Date date) {
         this.date = date;
     }
@@ -106,6 +147,7 @@ public abstract class Tweet implements Tweetable {
         return message;
     }
 
+<<<<<<< HEAD
     /**
      * Sets message.
      *
@@ -124,5 +166,17 @@ public abstract class Tweet implements Tweetable {
     @Override
     public String toString() {
         return date.toString() + " | " + message;
+=======
+    public Date getDate() {
+        return date;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void getId(String id) {
+        this.id = id;
+>>>>>>> elasticsearch
     }
 }

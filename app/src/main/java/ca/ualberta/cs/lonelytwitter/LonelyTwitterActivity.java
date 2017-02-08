@@ -22,8 +22,11 @@ import java.util.Date;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,6 +34,11 @@ import android.widget.ListView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+<<<<<<< HEAD
+=======
+
+public class LonelyTwitterActivity extends Activity {
+>>>>>>> elasticsearch
 
 /**
  * This class is the main view class of the project. <br> In this class, user interaction
@@ -83,17 +91,27 @@ public class LonelyTwitterActivity extends Activity {
 		TEXT_DESCENDING};
 	private EditText bodyText;
 	private ListView oldTweetsList;
+<<<<<<< HEAD
 
 	private ArrayList<Tweet> tweetList;
 	private ArrayAdapter<Tweet> adapter;
 	/** Called when the activity is first created. */
 	@Override //The override is used to make sure the compiler knows when you made a spelling error (rather than creating a new object)
+=======
+	private ArrayList<NormalTweet> tweetList = new ArrayList<NormalTweet>();
+	private ArrayAdapter<NormalTweet> adapter;
+
+
+
+	@Override
+>>>>>>> elasticsearch
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main);
 
 		bodyText = (EditText) findViewById(R.id.body);
 		Button saveButton = (Button) findViewById(R.id.save);
+		Button clearButton = (Button) findViewById(R.id.clear);
 		oldTweetsList = (ListView) findViewById(R.id.oldTweetsList);
 		// Added code as an attempt to add clear button functionality
 		Button clearButton = (Button) findViewById(R.id.clear);
@@ -130,6 +148,7 @@ public class LonelyTwitterActivity extends Activity {
 			public void onClick(View v) {
 				setResult(RESULT_OK);
 				String text = bodyText.getText().toString();
+<<<<<<< HEAD
 				text = trimExtraSpaces(text);
 
 				//Tweet tweet = new ImportantTweet("test string");
@@ -145,9 +164,32 @@ public class LonelyTwitterActivity extends Activity {
 				adapter.notifyDataSetChanged();
 				saveInFile();
 				//finish();
-
+=======
+				NormalTweet newTweet = new NormalTweet(text);
+				tweetList.add(newTweet);
+				adapter.notifyDataSetChanged();
+				//saveInFile(); // TODO replace this with elastic search
+				// These are internal static classes. Which is why constructing them is so long.
+				ElasticsearchTweetController.AddTweetsTask addTweetsTask = new ElasticsearchTweetController.AddTweetsTask();
+				addTweetsTask.execute(newTweet);
 			}
 		});
+>>>>>>> elasticsearch
+
+		clearButton.setOnClickListener(new View.OnClickListener() {
+
+			public void onClick(View v) {
+				setResult(RESULT_OK);
+				//tweetList.clear();
+				//deleteFile(FILENAME);  // TODO deprecate this button
+				String text = bodyText.getText().toString();
+				ElasticsearchTweetController.GetTweetsTask getTweetsTask = new ElasticsearchTweetController.GetTweetsTask();
+				getTweetsTask.execute(text);
+				adapter.notifyDataSetChanged();
+			}
+		});
+
+
 	}
 
 	/**
@@ -157,6 +199,7 @@ public class LonelyTwitterActivity extends Activity {
 	protected void onStart() {
 		// TODO Auto-generated method stub
 		super.onStart();
+<<<<<<< HEAD
 
 		loadFromFile();
 
@@ -204,12 +247,45 @@ public class LonelyTwitterActivity extends Activity {
 
 		} catch (FileNotFoundException e) {
 			tweetList = new ArrayList<Tweet>();
+=======
+		//loadFromFile(); // TODO replace this with elastic search
+
+		ElasticsearchTweetController.GetTweetsTask getTweetsTask = new ElasticsearchTweetController.GetTweetsTask();
+		// When we search an empty string, it should return the first results
+		getTweetsTask.execute("");
+
+		try {
+			tweetList = getTweetsTask.get();
+		} catch (Exception e) {
+			Log.i("Error", "We really suck at this don't we, sir?");
+		}
+
+
+		adapter = new ArrayAdapter<NormalTweet>(this,
+				R.layout.list_item, tweetList);
+		oldTweetsList.setAdapter(adapter);
+	}
+
+
+	private void loadFromFile() {
+		try {
+			FileInputStream fis = openFileInput(FILENAME);
+			BufferedReader in = new BufferedReader(new InputStreamReader(fis));
+			Gson gson = new Gson();
+			//Code taken from http://stackoverflow.com/questions/12384064/gson-convert-from-json-to-a-typed-arraylistt Sept.22,2016
+			Type listType = new TypeToken<ArrayList<NormalTweet>>(){}.getType();
+			tweetList = gson.fromJson(in, listType);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			tweetList = new ArrayList<NormalTweet>();
+>>>>>>> elasticsearch
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			throw new RuntimeException();
 		}
 	}
 
+<<<<<<< HEAD
 	/**
 	 * Saves tweets to a specified file in JSON format.
 	 * @throws FileNotFoundException if file folder doesn't exist
@@ -230,6 +306,19 @@ public class LonelyTwitterActivity extends Activity {
 		} catch (FileNotFoundException e) {
 			// TODO: Handle the Exception properly later.
 			// if we have a better idea of what's wrong, we can change this.
+=======
+
+	private void saveInFile() {
+		try {
+
+			FileOutputStream fos = openFileOutput(FILENAME,0);
+			OutputStreamWriter writer = new OutputStreamWriter(fos);
+			Gson gson = new Gson();
+			gson.toJson(tweetList, writer);
+			writer.flush();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+>>>>>>> elasticsearch
 			throw new RuntimeException();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

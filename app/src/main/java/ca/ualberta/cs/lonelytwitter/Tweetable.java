@@ -1,5 +1,6 @@
 package ca.ualberta.cs.lonelytwitter;
 
+<<<<<<< HEAD
 import java.util.Date;
 
 /**
@@ -20,4 +21,14 @@ public interface Tweetable {
      * @return the date
      */
     public Date getDate();
+=======
+
+import java.util.Date;
+
+public interface Tweetable {
+    public String getMessage();
+
+    public Date getDate();
+
+>>>>>>> elasticsearch
 }

@@ -1,5 +1,6 @@
 package ca.ualberta.cs.lonelytwitter;
 
+<<<<<<< HEAD
 import java.util.Date;
 
 /**
@@ -43,4 +44,18 @@ public class ImportantTweet extends Tweet {
     public String getMessage() {
         return super.getMessage() + "!!!!!";
     }
+=======
+public class ImportantTweet extends Tweet{
+
+    public ImportantTweet(String message){
+        super(message);
+    }
+
+    @Override
+    public Boolean isImportant(){
+        return Boolean.TRUE;
+    }
+
+
+>>>>>>> elasticsearch
 }

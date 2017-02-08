@@ -1,5 +1,6 @@
 package ca.ualberta.cs.lonelytwitter;
 
+<<<<<<< HEAD
 import java.util.Date;
 
 /**
@@ -27,6 +28,15 @@ public class NormalTweet extends Tweet {
         super(message);
     }
 
+=======
+public class NormalTweet extends Tweet {
+
+    public NormalTweet(String message) {
+        super(message);
+    }
+
+    @Override
+>>>>>>> elasticsearch
     public Boolean isImportant() {
         return Boolean.FALSE;
     }
